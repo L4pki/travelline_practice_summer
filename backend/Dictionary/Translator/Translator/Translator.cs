@@ -7,51 +7,51 @@
         public Translator()
         {
             _translations = new Dictionary<string, string>();
-            LoadTranslationsFromFile("translations.txt");
+            LoadTranslationsFromFile( "translations.txt" );
         }
 
-        public void AddTranslation(string word, string translation)
+        public void AddTranslation( string word, string translation )
         {
-            _translations[word] = translation;
-            _translations[translation] = word;
-            SaveTranslationsToFile("translations.txt");
+            _translations[ word ] = translation;
+            _translations[ translation ] = word;
+            SaveTranslationsToFile( "translations.txt" );
         }
 
-        public void RemoveTranslation(string word)
+        public void RemoveTranslation( string word )
         {
-            if (_translations.ContainsKey(word))
+            if ( _translations.ContainsKey( word ) )
             {
-                _translations.Remove(_translations[word]);
-                _translations.Remove(word);
-                SaveTranslationsToFile("translations.txt");
+                _translations.Remove( _translations[ word ] );
+                _translations.Remove( word );
+                SaveTranslationsToFile( "translations.txt" );
             }
             else
             {
-                Console.WriteLine("Слова нет в словаре");
+                Console.WriteLine( "Слова нет в словаре" );
             }
         }
 
-        public void ChangeTranslation(string word, string newTranslation)
+        public void ChangeTranslation( string word, string newTranslation )
         {
-            if (_translations.ContainsKey(word))
+            if ( _translations.ContainsKey( word ) )
             {
-                _translations.Remove(_translations[word]);
-                _translations.Remove(word);
-                _translations[word] = newTranslation;
-                _translations[newTranslation] = word;
-                SaveTranslationsToFile("translations.txt");
+                _translations.Remove( _translations[ word ] );
+                _translations.Remove( word );
+                _translations[ word ] = newTranslation;
+                _translations[ newTranslation ] = word;
+                SaveTranslationsToFile( "translations.txt" );
             }
             else
             {
-                Console.WriteLine("Слова нет в словаре");
+                Console.WriteLine( "Слова нет в словаре" );
             }
         }
 
-        public string Translate(string word)
+        public string Translate( string word )
         {
-            if (_translations.ContainsKey(word))
+            if ( _translations.ContainsKey( word ) )
             {
-                return _translations[word];
+                return _translations[ word ];
             }
             else
             {
@@ -59,26 +59,26 @@
             }
         }
 
-        private void LoadTranslationsFromFile(string fileName)
+        private void LoadTranslationsFromFile( string fileName )
         {
-            if (File.Exists(fileName))
+            if ( File.Exists( fileName ) )
             {
-                string[] lines = File.ReadAllLines(fileName);
-                foreach (var line in lines)
+                string[] lines = File.ReadAllLines( fileName );
+                foreach ( var line in lines )
                 {
-                    string[] parts = line.Split(',');
-                    _translations[parts[0]] = parts[1];
+                    string[] parts = line.Split( ',' );
+                    _translations[ parts[ 0 ] ] = parts[ 1 ];
                 }
             }
         }
 
-        private void SaveTranslationsToFile(string fileName)
+        private void SaveTranslationsToFile( string fileName )
         {
-            using (StreamWriter writer = new StreamWriter(fileName))
+            using ( StreamWriter writer = new StreamWriter( fileName ) )
             {
-                foreach (var pair in _translations)
+                foreach ( var pair in _translations )
                 {
-                    writer.WriteLine(pair.Key + "," + pair.Value);
+                    writer.WriteLine( pair.Key + "," + pair.Value );
                 }
             }
         }
