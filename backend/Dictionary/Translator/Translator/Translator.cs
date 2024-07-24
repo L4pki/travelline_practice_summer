@@ -1,86 +1,125 @@
-﻿namespace EnRuTranslator
+﻿using InputOutput;
+
+namespace EnRuTranslator;
+
+public class Translator
 {
-    class Translator
+    UserIO _userIO = new UserIO();
+    private Dictionary<string, string> _translations;
+    string fileName = "translations.txt";
+    public Translator()
     {
-        private Dictionary<string, string> _translations;
-
-        public Translator()
+        _translations = new Dictionary<string, string>();
+        LoadTranslationsFromFile( fileName );
+    }
+    public void AddTranslation()
+    {
+        _userIO.InputWordAndTranslate();
+        string input = Console.ReadLine();
+        string[] words = input.Split( ',' );
+        if ( input.Length < 2 )
         {
-            _translations = new Dictionary<string, string>();
-            LoadTranslationsFromFile( "translations.txt" );
+            _userIO.IncorrectData();
         }
-
-        public void AddTranslation( string word, string translation )
+        else if ( CheckingWordTranslation( words[ 0 ] ) || CheckingWordTranslation( words[ 1 ] ) )
         {
-            _translations[ word ] = translation;
-            _translations[ translation ] = word;
-            SaveTranslationsToFile( "translations.txt" );
+            _userIO.IncorrectData();
         }
-
-        public void RemoveTranslation( string word )
+        else
         {
-            if ( _translations.ContainsKey( word ) )
-            {
-                _translations.Remove( _translations[ word ] );
-                _translations.Remove( word );
-                SaveTranslationsToFile( "translations.txt" );
-            }
-            else
-            {
-                Console.WriteLine( "Слова нет в словаре" );
-            }
+            _translations[ words[ 0 ] ] = words[ 1 ];
+            _translations[ words[ 1 ] ] = words[ 0 ];
+            SaveTranslationsToFile( fileName );
         }
-
-        public void ChangeTranslation( string word, string newTranslation )
+    }
+    public void RemoveTranslation()
+    {
+        _userIO.DeleteWord();
+        string wordToRemove = Console.ReadLine();
+        if ( _translations.ContainsKey( wordToRemove ) )
         {
-            if ( _translations.ContainsKey( word ) )
-            {
-                _translations.Remove( _translations[ word ] );
-                _translations.Remove( word );
-                _translations[ word ] = newTranslation;
-                _translations[ newTranslation ] = word;
-                SaveTranslationsToFile( "translations.txt" );
-            }
-            else
-            {
-                Console.WriteLine( "Слова нет в словаре" );
-            }
+            _translations.Remove( _translations[ wordToRemove ] );
+            _translations.Remove( wordToRemove );
+            SaveTranslationsToFile( fileName );
         }
-
-        public string Translate( string word )
+        else
         {
-            if ( _translations.ContainsKey( word ) )
-            {
-                return _translations[ word ];
-            }
-            else
-            {
-                return "Слова нет в словаре";
-            }
+            _userIO.NoWord();
         }
-
-        private void LoadTranslationsFromFile( string fileName )
+    }
+    public void ChangeTranslation()
+    {
+        _userIO.ChangedTranslate();
+        string[] changeInput = Console.ReadLine().Split( ',' );
+        if ( changeInput.Length < 2 )
         {
-            if ( File.Exists( fileName ) )
-            {
-                string[] lines = File.ReadAllLines( fileName );
-                foreach ( var line in lines )
-                {
-                    string[] parts = line.Split( ',' );
-                    _translations[ parts[ 0 ] ] = parts[ 1 ];
-                }
-            }
+            _userIO.IncorrectData();
         }
-
-        private void SaveTranslationsToFile( string fileName )
+        else if ( CheckingWordTranslation( changeInput[ 1 ] ) )
         {
-            using ( StreamWriter writer = new StreamWriter( fileName ) )
+            _userIO.IncorrectData();
+        }
+        else if ( _translations.ContainsKey( changeInput[ 0 ] ) )
+        {
+            _translations.Remove( _translations[ changeInput[ 0 ] ] );
+            _translations.Remove( changeInput[ 0 ] );
+            _translations[ changeInput[ 0 ] ] = changeInput[ 1 ];
+            _translations[ changeInput[ 1 ] ] = changeInput[ 0 ];
+            SaveTranslationsToFile( fileName );
+        }
+        else
+        {
+            _userIO.NoWord();
+        }
+    }
+    public void Translate()
+    {
+        _userIO.WordToTranslate();
+        string wordToTranslate = Console.ReadLine();
+        if ( _translations.ContainsKey( wordToTranslate ) )
+        {
+            Console.WriteLine( _translations[ wordToTranslate ] );
+        }
+        else
+        {
+            _userIO.NoWord();
+            _userIO.WantToTranslate();
+            if ( string.Equals( Console.ReadLine(), "да", StringComparison.OrdinalIgnoreCase ) )
             {
-                foreach ( var pair in _translations )
-                {
-                    writer.WriteLine( pair.Key + "," + pair.Value );
-                }
+                AddTranslation();
             }
         }
+    }
+    private void LoadTranslationsFromFile( string fileName )
+    {
+        if ( File.Exists( fileName ) )
+        {
+            string[] lines = File.ReadAllLines( fileName );
+            foreach ( var line in lines )
+            {
+                string[] parts = line.Split( ',' );
+                _translations[ parts[ 0 ] ] = parts[ 1 ];
+            }
+        }
+    }
+    private void SaveTranslationsToFile( string fileName )
+    {
+        using ( StreamWriter writer = new StreamWriter( fileName ) )
+        {
+            foreach ( var pair in _translations )
+            {
+                writer.WriteLine( $"{pair.Key}, {pair.Value}" );
+                ;
+            }
+        }
+    }
+    private bool CheckingWordTranslation( string word )
+    {
+        if ( _translations.ContainsKey( word ) )
+        {
+            _userIO.TranslationAvaliable( word );
+            return true;
+        }
+        return false;
     }
 }

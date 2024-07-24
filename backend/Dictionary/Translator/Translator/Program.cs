@@ -1,63 +1,36 @@
 ﻿using EnRuTranslator;
+using InputOutput;
 class Programm
 {
     static void Main()
     {
+        UserIO _userIO = new UserIO();
         Translator translator = new Translator();
         bool isProgrammWorking = true;
         while ( isProgrammWorking )
         {
-            Console.WriteLine( "Введите код команды:\n (1)Добавить перевод\n (2)Удалить перевод\n (3)Изменить перевод\n (4)Перевести слово\n (5)Выйти" );
+            _userIO.InputCommand();
             string command = Console.ReadLine();
 
             switch ( command )
             {
                 case "1":
-                    Console.WriteLine( "Введите слово и его перевод через запятую:" );
-                    string[] input = Console.ReadLine().Split( ',' );
-                    if ( input.Length < 2 )
-                    {
-                        Console.WriteLine( "Введены некорректные данные!" );
-                        break;
-                    }
-                    translator.AddTranslation( input[ 0 ].Trim(), input[ 1 ].Trim() );
+                    translator.AddTranslation();
                     break;
                 case "2":
-                    Console.WriteLine( "Введите слово для удаления:" );
-                    string wordToRemove = Console.ReadLine();
-                    translator.RemoveTranslation( wordToRemove );
+                    translator.RemoveTranslation();
                     break;
                 case "3":
-                    Console.WriteLine( "Введите слово и новый перевод через запятую:" );
-                    string[] changeInput = Console.ReadLine().Split( ',' );
-                    if ( changeInput.Length < 2 )
-                    {
-                        Console.WriteLine( "Введены некорректные данные!" );
-                        break;
-                    }
-                    translator.ChangeTranslation( changeInput[ 0 ].Trim(), changeInput[ 1 ].Trim() );
+                    translator.ChangeTranslation();
                     break;
                 case "4":
-                    Console.WriteLine( "Введите слово для перевода:" );
-                    string wordToTranslate = Console.ReadLine();
-                    Console.WriteLine( translator.Translate( wordToTranslate ) );
-                    if ( translator.Translate( wordToTranslate ) == "Слова нет в словаре" )
-                    {
-                        Console.WriteLine( "Хотите добавить перевод? (да/нет)" );
-                        if ( Console.ReadLine() == "да" )
-                        {
-                            Console.Write( "Введите перевод слова: " );
-                            string newTranslate = Console.ReadLine();
-                            string[] newTranslateCouple = [ newTranslate, wordToTranslate ];
-                            translator.AddTranslation( newTranslateCouple[ 0 ].Trim(), newTranslateCouple[ 1 ].Trim() );
-                        }
-                    }
+                    translator.Translate();
                     break;
                 case "5":
                     isProgrammWorking = false;
                     break;
                 default:
-                    Console.WriteLine( "Неизвестная команда" );
+                    _userIO.UnknowCommand();
                     break;
             }
         }
