@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
@@ -22,6 +23,7 @@ public class EFPlayRepositories : IPlayRepositories
     {
         return _dbContext.Set<Play>()
             .Where( p => p.StartDate <= endDate && p.EndDate >= startDate )
+            .Include( p => p.Composition )
             .ToList();
     }
 
