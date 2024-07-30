@@ -5,17 +5,19 @@ public class Theater
     public string Name { get; set; }
     public string Address { get; private set; }
     public DateTime OpenSince { get; private set; }
-    public string WorkTime { get; set; }
+    public TimeSpan StartTime { get; private set; }
+    public TimeSpan EndTime { get; private set; }
     public string About { get; set; }
     public string Phone { get; set; }
 
     public List<Play> Plays { get; private init; }
 
-    public Theater(string name, string address, string about, DateTime openSince, string workTime, string phone)
+    public Theater(string name, string address, string about, DateTime openSince, TimeSpan startTime, TimeSpan endTime, string phone)
     {
         Name = name;
         Address = address;
-        WorkTime = workTime;
+        StartTime = startTime;
+        EndTime = endTime;
         OpenSince = openSince;
         About = about;
         Phone = phone;

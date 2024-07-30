@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 public class EFTheaterRepositories : ITheaterRepositories
@@ -10,6 +11,7 @@ public class EFTheaterRepositories : ITheaterRepositories
     {
         _dbContext = dbContext;
     }
+
     public void Save( Theater theater )
     {
         _dbContext.Set<Theater>().Add( theater );
@@ -28,7 +30,8 @@ public class EFTheaterRepositories : ITheaterRepositories
         theater.Name = modifiedTheater.Name;
         theater.Phone = modifiedTheater.Phone;
         theater.About = modifiedTheater.About;
-        theater.WorkTime = modifiedTheater.WorkTime;
+        theater.StartTime = modifiedTheater.StartTime;
+        theater.EndTime = modifiedTheater.EndTime;
 
         _dbContext.SaveChanges();
     }
@@ -42,13 +45,9 @@ public class EFTheaterRepositories : ITheaterRepositories
             _dbContext.SaveChanges();
         }
     }
+
     public Theater GetById( int id )
     {
-        var theater = _dbContext.Set<Theater>().FirstOrDefault( t => t.Id == id );
-        if ( theater == null )
-        {
-            return null;
-        }
-        return theater;
+        return _dbContext.Set<Theater>().FirstOrDefault( t => t.Id == id );
     }
 }

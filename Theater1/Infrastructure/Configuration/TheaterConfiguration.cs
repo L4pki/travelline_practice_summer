@@ -25,8 +25,10 @@ public class TheaterConfiguration : IEntityTypeConfiguration<Theater>
         builder.Property( t => t.OpenSince )
                .IsRequired();
 
-        builder.Property( t => t.WorkTime )
-               .HasMaxLength( 100 )
+        builder.Property( t => t.StartTime )
+               .IsRequired();
+
+        builder.Property( t => t.EndTime )
                .IsRequired();
 
         builder.Property( t => t.About )
@@ -34,9 +36,8 @@ public class TheaterConfiguration : IEntityTypeConfiguration<Theater>
                .IsRequired();
 
         builder.HasMany( t => t.Plays )
-               .WithOne(p => p.Theater)
+               .WithOne( p => p.Theater )
                .HasForeignKey( p => p.IdTheater )
                .OnDelete( DeleteBehavior.Restrict );
-
     }
 }

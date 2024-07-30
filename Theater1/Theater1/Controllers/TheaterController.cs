@@ -26,9 +26,9 @@ public class TheaterController : ControllerBase
 
         Theater newTheater = new Theater(
             request.Name,
-            request.Address,
-            request.About,
-            request.OpenSince,
+            request.Address, 
+            request.About, 
+            request.OpenSince, 
             request.WorkTime,
             request.Phone );
 
