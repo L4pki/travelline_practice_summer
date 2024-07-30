@@ -26,10 +26,11 @@ public class TheaterController : ControllerBase
 
         Theater newTheater = new Theater(
             request.Name,
-            request.Address, 
-            request.About, 
-            request.OpenSince, 
-            request.WorkTime,
+            request.Address,
+            request.About,
+            request.OpenSince,
+            request.StartTime,
+            request.EndTime,
             request.Phone );
 
         _theaterRepositories.Save( newTheater );
@@ -53,7 +54,8 @@ public class TheaterController : ControllerBase
 
         theater.Name = request.Name;
         theater.About = request.About;
-        theater.WorkTime = request.WorkTime;
+        theater.StartTime = request.StartTime;
+        theater.EndTime = request.EndTime;
         theater.Phone = request.Phone;
 
         _theaterRepositories.Update( theater );

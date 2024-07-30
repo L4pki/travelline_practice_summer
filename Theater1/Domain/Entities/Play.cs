@@ -24,5 +24,21 @@ public class Play
 
     public Theater Theater { get; private set; }
     public Composition Composition { get; private set; }
+}
 
+public class PlayInfo
+{
+    public string Name { get; set; }
+    public int TicketPrice { get; set; }
+    public string AboutPlay { get; set; }
+    public string AboutComposition { get; set; }
+    public string AboutActors { get; set; }
+}
+
+public class AvailablePlaysResponse
+{
+    public string TheaterName { get; set; }
+    public DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
+    public List<PlayInfo> Plays { get; set; }
 }

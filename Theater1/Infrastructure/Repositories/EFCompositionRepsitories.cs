@@ -15,4 +15,8 @@ public class EFCompositionRepsitories : ICompositionRepositories
         _dbContext.Set<Composition>().Add( composition );
         _dbContext.SaveChanges();
     }
+    public Composition GetById( int id )
+    {
+        return _dbContext.Set<Composition>().FirstOrDefault( t => t.Id == id );
+    }
 }

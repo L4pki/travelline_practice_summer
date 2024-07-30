@@ -2,21 +2,23 @@
 using Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Theater1.Dto.PlayDto;
+using Domain.Repositories;
+using Infrastructure.Repositories;
 
 namespace Theater1.Controllers;
 
 [ApiController]
-[Route( "Play" )]
-public class PlayController : ControllerBase
+[Route( "api/[controller]" )]
+public class PlaysController : ControllerBase
 {
-    private readonly IPlayRepositories _playRepositories;
+    private readonly IPlayRepositories _playRepository;
 
-    public PlayController( IPlayRepositories playRepositories )
+    public PlaysController( IPlayRepositories playRepository )
     {
-        _playRepositories = playRepositories;
+        _playRepository = playRepository;
     }
 
-    [HttpPost( "" )]
+    [HttpPost]
     public IActionResult CreatePlay( [FromBody] CreatePlayRequest request )
     {
         Play newPlay = new Play(
@@ -28,22 +30,30 @@ public class PlayController : ControllerBase
             request.IdTheater,
             request.IdComposition );
 
-        _playRepositories.Save( newPlay );
+        _playRepository.Save( newPlay );
 
         return Ok( newPlay );
     }
-    [HttpGet( "ByPeriod" )]
-    public IActionResult GetByPeriod( [FromQuery] DateTime startDate, [FromQuery] DateTime endDate )
-    {
-        if ( startDate == default( DateTime ) || endDate == default( DateTime ) )
-        {
-            return BadRequest( "Start date and end date must be valid dates." );
-        }
 
-        if ( startDate > endDate )
+    [HttpGet( "available" )]
+    public IActionResult GetAvailablePlays( [FromQuery] DateTime startDate, [FromQuery] DateTime endDate )
+    {
+        try
         {
-            return BadRequest( "Start date must be earlier than or equal to end date." );
+            var response = _playRepository.GetAvailablePlays( startDate, endDate );
+            return Ok( response );
         }
-        return Ok( _playRepositories.GetByPeriod( startDate, endDate ) );
+        catch ( ArgumentException ex )
+        {
+            return BadRequest( ex.Message );
+        }
+        catch ( FileNotFoundException ex )
+        {
+            return NotFound( ex.Message );
+        }
+        catch ( Exception ex )
+        {
+            return StatusCode( 500, "Internal server error: " + ex.Message );
+        }
     }
 }
