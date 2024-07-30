@@ -21,6 +21,11 @@ public class AuthorController : ControllerBase
     [HttpPost( "" )]
     public IActionResult CreateAuthor( [FromBody] CreateAuthorRequest request )
     {
+        if ( !ModelState.IsValid )
+        {
+            return BadRequest( ModelState );
+        }
+
         Author newAuthor = new Author(
             request.Name,
             request.DateOfBorth );
@@ -29,6 +34,7 @@ public class AuthorController : ControllerBase
 
         return Ok( newAuthor );
     }
+
     [HttpGet( "" )]
     public IActionResult GetAll()
     {

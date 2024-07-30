@@ -19,12 +19,17 @@ public class TheaterController : ControllerBase
     [HttpPost( "" )]
     public IActionResult CreateTheater( [FromBody] CreateTheaterRequest request )
     {
+        if ( !ModelState.IsValid )
+        {
+            return BadRequest( ModelState );
+        }
+
         Theater newTheater = new Theater(
             request.Name,
-            request.Address, 
-            request.About, 
-            request.OpenSince, 
-            request.WorkTime, 
+            request.Address,
+            request.About,
+            request.OpenSince,
+            request.WorkTime,
             request.Phone );
 
         _theaterRepositories.Save( newTheater );
@@ -35,11 +40,17 @@ public class TheaterController : ControllerBase
     [HttpPut( "{id:int}" )]
     public IActionResult ModifyTheater( [FromRoute] int id, [FromBody] ModifyTheaterRequest request )
     {
+        if ( !ModelState.IsValid )
+        {
+            return BadRequest( ModelState );
+        }
+
         Theater theater = _theaterRepositories.GetById( id );
-        if( theater == null )
+        if ( theater == null )
         {
             return NotFound();
         }
+
         theater.Name = request.Name;
         theater.About = request.About;
         theater.WorkTime = request.WorkTime;
@@ -49,6 +60,7 @@ public class TheaterController : ControllerBase
 
         return Ok( theater );
     }
+
     [HttpDelete( "{id:int}" )]
     public IActionResult DeleteTheater( int id )
     {

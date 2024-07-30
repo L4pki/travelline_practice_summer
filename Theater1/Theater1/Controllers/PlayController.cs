@@ -35,6 +35,15 @@ public class PlayController : ControllerBase
     [HttpGet( "ByPeriod" )]
     public IActionResult GetByPeriod( [FromQuery] DateTime startDate, [FromQuery] DateTime endDate )
     {
+        if ( startDate == default( DateTime ) || endDate == default( DateTime ) )
+        {
+            return BadRequest( "Start date and end date must be valid dates." );
+        }
+
+        if ( startDate > endDate )
+        {
+            return BadRequest( "Start date must be earlier than or equal to end date." );
+        }
         return Ok( _playRepositories.GetByPeriod( startDate, endDate ) );
     }
 }
