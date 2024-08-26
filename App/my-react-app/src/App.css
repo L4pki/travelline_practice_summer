@@ -1,0 +1,294 @@
+:root {
+  --primary-color: #3498db; /* Основной цвет */
+  --secondary-color: #2980b9; /* Вторичный цвет */
+  --accent-color: #1abc9c; /* Акцентный цвет */
+  --background-color: #ecf0f1; /* Цвет фона */
+  --card-background: #ffffff; /* Фоновый цвет карточек */
+  --border-color: #bdc3c7; /* Цвет границ */
+  --text-color: #2c3e50; /* Цвет текста */
+  --link-color: #3498db; /* Цвет ссылок */
+  --link-hover-color: #2980b9; /* Цвет ссылок при наведении */
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  background-color: var(--background-color);
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em var(--primary-color));
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em var(--accent-color));
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.container {
+  padding: 20px;
+}
+
+.application {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.deck-list-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  background-color: var(--background-color);
+  overflow-y: auto;
+  padding: 16px;
+  border-right: 1px solid var(--border-color);
+}
+
+.deck-item {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border-color);
+  padding: 8px;
+  border-radius: 4px;
+  background-color: var(--card-background);
+  margin-bottom: 8px;
+  position: relative;
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+.progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 6px;
+  background-color: var(--border-color);
+  width: 100%;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: var(--accent-color);
+}
+
+.deck-container {
+  display: flex;
+  width: 400px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
+}
+
+.add-deck-form {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--card-background);
+  display: flex;
+  flex-direction: column;
+}
+
+.add-deck-form label {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--text-color);
+}
+
+.add-deck-form input {
+  margin-left: 10px;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.add-deck-form button {
+  margin-top: 10px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-deck-form button:hover {
+  background-color: var(--secondary-color);
+}
+
+.show-form-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-bottom: 10px;
+}
+
+.show-form-button:hover {
+  background-color: var(--secondary-color);
+}
+
+.deck-details {
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--card-background);
+  width: 300px;
+  margin: 0 auto;
+}
+
+.deck-title {
+  margin: 0;
+  font-size: 24px;
+  color: var(--text-color);
+}
+
+.card-list {
+  list-style-type: none;
+}
+
+ul {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.card-item {
+  padding: 10px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.card-item:last-child {
+  border-bottom: none;
+}
+
+.add-card-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-title {
+  margin: 0 0 15px;
+  font-size: 18px;
+  color: var(--text-color);
+}
+
+.form-label {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: var(--text-color);
+}
+
+.form-input {
+  width: 282px;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.submit-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: var(--secondary-color);
+}
+
+.quiz-card {
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--card-background);
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.options {
+  margin-top: 20px;
+}
+
+.option-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.option-button:hover {
+  background-color: var(--secondary-color);
+}
+
+.toggle-form-button {
+  margin-top: 20px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.toggle-form-button:hover {
+  background-color: var(--secondary-color);
+}
