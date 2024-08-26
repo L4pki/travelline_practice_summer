@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Deck } from "../entities/Deck";
 import React from "react";
 import { Card } from "../entities/Card";
+import { useStore } from "../hooks/useStore";
 
 type DeckDetailsProps = {
   deck: Deck;
@@ -14,6 +15,8 @@ const DeckDetails: React.FC<DeckDetailsProps> = ({ deck, onAddCard }) => {
   const [showCards, setShowCards] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
+  const removeCard = useStore((state) => state.removeCardFromDeck);
+
   const handleAddCard = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newCard: Card = {
@@ -25,6 +28,12 @@ const DeckDetails: React.FC<DeckDetailsProps> = ({ deck, onAddCard }) => {
     setWord("");
     setTranslate("");
     setShowForm(false);
+  };
+
+  const handleRemoveCard = (cardId: number) => {
+    if (window.confirm("Вы уверены, что хотите удалить эту карту?")) {
+      removeCard(deck.id, cardId);
+    }
   };
 
   return (
@@ -43,6 +52,14 @@ const DeckDetails: React.FC<DeckDetailsProps> = ({ deck, onAddCard }) => {
           {deck.cards.map((card) => (
             <li key={card.id} className="card-item">
               {card.word} - {card.translate}
+              <button
+                onClick={() => {
+                  handleRemoveCard(card.id);
+                }}
+                className="delete-button"
+              >
+                ❌
+              </button>
             </li>
           ))}
         </ul>

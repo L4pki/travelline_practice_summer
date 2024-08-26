@@ -12,6 +12,8 @@ type StoreState = {
   handleAnswer: (isCorrect: boolean) => void;
   addDeck: (newDeck: Deck) => void;
   addCardToDeck: (deckId: number, newCard: Card) => void;
+  removeDeck: (deckId: number) => void;
+  removeCardFromDeck: (deckId: number, cardId: number) => void;
 };
 
 export const useStore = create(
@@ -38,6 +40,18 @@ export const useStore = create(
       addCardToDeck: (deckId, newCard) => {
         set((state) => ({
           decks: state.decks.map((deck) => (deck.id === deckId ? { ...deck, cards: [...deck.cards, newCard] } : deck)),
+        }));
+      },
+      removeDeck: (deckId) => {
+        set((state) => ({
+          decks: state.decks.filter((deck) => deck.id !== deckId),
+        }));
+      },
+      removeCardFromDeck: (deckId, cardId) => {
+        set((state) => ({
+          decks: state.decks.map((deck) =>
+            deck.id === deckId ? { ...deck, cards: deck.cards.filter((card) => card.id !== cardId) } : deck,
+          ),
         }));
       },
     }),
